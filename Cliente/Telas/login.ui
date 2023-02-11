@@ -30,7 +30,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>User Icone.png</pixmap>
+     <pixmap>../Img/User Icone.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -46,7 +46,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>Icone Login.png</pixmap>
+     <pixmap>../Img/Icone Login.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -62,7 +62,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>Senha icone.png</pixmap>
+     <pixmap>../Img/Senha icone.png</pixmap>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit">

@@ -2,7 +2,7 @@ import socket
 from PyQt5 import uic, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 
-ip = '10.180.43.139'
+ip = '192.168.1.16'
 port = 3000
 addr = (ip, port)
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -29,11 +29,12 @@ def fazer_login():
         dados = ','.join(lista_dados)
         client_socket.send(dados.encode())
         retorno = client_socket.recv(1024).decode()
-
+        ret = retorno.split(',')
         if(retorno != 0):
-            login1.login_user = retorno
+            login1.login_user = ret[0]
             login.close()
             dashboard.show()
+            dashboard.label.setText("Olá {}.".format(ret[1]))
             QMessageBox.information(None, "Alerta!", "Login realizado com sucesso!")
 
         elif(retorno == 0):
@@ -222,14 +223,14 @@ def finalizar():
     login.close()
 
 app = QtWidgets.QApplication([])
-login = uic.loadUi("login.ui")
-cadastro = uic.loadUi("cadastro.ui")
-dashboard = uic.loadUi("dashboard.ui")
-saque = uic.loadUi("saque.ui")
-deposito = uic.loadUi("deposito.ui")
-transferencia = uic.loadUi("transferencia.ui")
-extrato = uic.loadUi("extrato.ui")
-historico = uic.loadUi("historico.ui")
+login = uic.loadUi("Telas/login.ui")
+cadastro = uic.loadUi("Telas/cadastro.ui")
+dashboard = uic.loadUi("Telas/dashboard.ui")
+saque = uic.loadUi("Telas/saque.ui")
+deposito = uic.loadUi("Telas/deposito.ui")
+transferencia = uic.loadUi("Telas/transferencia.ui")
+extrato = uic.loadUi("Telas/extrato.ui")
+historico = uic.loadUi("Telas/historico.ui")
 
 
 

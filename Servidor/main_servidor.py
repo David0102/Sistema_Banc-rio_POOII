@@ -6,7 +6,7 @@ from cliente import Cliente
 
 banco = Banco()
 
-host = '10.180.43.139'
+host = '192.168.1.16'
 port = 3000
 addr = (host, port)
 
@@ -20,7 +20,8 @@ def menu(con, cliente):
         msg = int(ret)
 
         if(msg == 0):
-            pass
+            print(cliente, "Desconectado!")
+            break
         
         elif(msg == 1):
             dados = con.recv(4096).decode()
@@ -45,8 +46,9 @@ def menu(con, cliente):
 
             user = banco.verifica_conta_login(lista_login[0], lista_login[1])
             if(user != False):
-                user_login = user.get('CPF')
-                con.send(user_login.encode())
+                user_login = [user.get('CPF'),user.get('Usuário')]
+                user_login1 = ','.join(user_login)
+                con.send(user_login1.encode())
             else:
                 con.send('0'.encode())
             
