@@ -1,17 +1,14 @@
 import socket, threading
 from conta import Conta
 from banco import Banco
-from historico import Historico
 from cliente import Cliente
 
-banco = Banco()
-
-host = '192.168.1.16'
-port = 3000
-addr = (host, port)
-
-
 def menu(con, cliente):
+    """
+    Método que irá receber as mensagens de controle do cliente, contendo um código de uma determinada operação.
+    Logo após realizar as devidas operações, será retornado dados ou mensagens de controle para o cliente.
+    """
+    banco = Banco()
     connect = True
     while(connect):
 
@@ -20,10 +17,17 @@ def menu(con, cliente):
         msg = int(ret)
 
         if(msg == 0):
+            """
+            Cliente fechou o programa.
+            """
             print(cliente, "Desconectado!")
             break
         
         elif(msg == 1):
+            """
+            Cliente solicitou um cadastro.
+
+            """
             dados = con.recv(4096).decode()
             lista_dados = dados.split(',')
 
@@ -41,6 +45,10 @@ def menu(con, cliente):
                 con.send('0'.encode())
 
         elif(msg == 2):
+            """
+            Cliente solicitou um login.
+
+            """
             dados = con.recv(4096).decode()
             lista_login = dados.split(',')
 
@@ -53,6 +61,10 @@ def menu(con, cliente):
                 con.send('0'.encode())
             
         elif(msg == 4):
+            """
+            Cliente solicitou um saque.
+
+            """
             dados = con.recv(4096).decode()
             lista_saque = dados.split(',')
             valor_saque = float(lista_saque[1])
@@ -65,6 +77,10 @@ def menu(con, cliente):
                 con.send('0'.encode())
         
         elif(msg == 5):
+            """
+            Cliente solicitou um depósito.
+
+            """
             dados = con.recv(4096).decode()
             lista_depo = dados.split(',')
             valor_deposito = float(lista_depo[1])
@@ -77,6 +93,10 @@ def menu(con, cliente):
                 con.send('0'.encode())
 
         elif(msg == 6):
+            """
+            Cliente solicitou uma transferência.
+
+            """
             dados = con.recv(4096).decode()
             lista_deposito = dados.split(',')
             valor_trans = float(lista_deposito[2])
@@ -92,6 +112,10 @@ def menu(con, cliente):
                 con.send('2'.encode())
         
         elif(msg == 7):
+            """
+            Cliente solicitou o extrato.
+
+            """
             user_extrato = con.recv(4096).decode()
             dados_extrato = banco.extrato(user_extrato)
             if(dados_extrato != False):
@@ -100,18 +124,33 @@ def menu(con, cliente):
                 con.send('0'.encode())
         
         elif(msg == 8):
+            """
+            Cliente solicitou remoção da conta.
+
+            """
             user_remover = con.recv(4096).decode()
             banco.remove_conta(user_remover)
             banco.deslogar()
             con.send('1'.encode())
         
         elif(msg == 9):
+            """
+            Cliente solicitou o histórico.
+
+            """
             user_historico = con.recv(4096).decode()
             lista_hist = banco.retorna_historico(user_historico)
             lista_hist1 = ','.join(lista_hist)
             con.send(lista_hist1.encode())
 
 def main():
+    """
+    Método para criar o socket com o ip e a porta solicitada, e realizar a criação das threads.
+    
+    """
+    host = '192.168.1.16'
+    port = 3000
+    addr = (host, port)
     print("Aguardando conexão...")
     serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serv_socket.bind(addr)
