@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>banco &mdash; Sistema_Bancario 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Sistema_Bancario
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Sistema_Bancario_POOII</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sistema_Bancario</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">banco</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for banco</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">conta</span> <span class="kn">import</span> <span class="n">Conta</span>
+<span class="kn">from</span> <span class="nn">cliente</span> <span class="kn">import</span> <span class="n">Cliente</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Conectando com o banco de dados.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">MONGO_URI</span> <span class="o">=</span> <span class="s1">&#39;mongodb://localhost&#39;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">MONGO_URI</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="s1">&#39;sistema_bancario&#39;</span><span class="p">]</span>
+<span class="n">contas</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="s2">&quot;contas&quot;</span><span class="p">]</span>
+<span class="n">login</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="s2">&quot;login&quot;</span><span class="p">]</span>
+<span class="n">historicos</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="s2">&quot;historicos&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Banco"><a class="viewcode-back" href="../modulo2.html#banco.Banco">[docs]</a><span class="k">class</span> <span class="nc">Banco</span><span class="p">:</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A classe banco irá conter os métodos que irão realizar as operações requisitadas pelo cliente na sua</span>
+<span class="sd">    determinada conta.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Banco.adciona_conta"><a class="viewcode-back" href="../modulo2.html#banco.Banco.adciona_conta">[docs]</a>    <span class="k">def</span> <span class="nf">adciona_conta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conta</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá passar os dados do objeto para o banco de dados.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        conta : object</span>
+<span class="sd">            Recebe a conta de um cliente.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">conta</span><span class="o">.</span><span class="n">_senha</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+        <span class="n">contas</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span><span class="s2">&quot;Número&quot;</span><span class="p">:</span> <span class="n">conta</span><span class="o">.</span><span class="n">_numero</span><span class="p">,</span> <span class="s2">&quot;Nome&quot;</span><span class="p">:</span> <span class="n">conta</span><span class="o">.</span><span class="n">_titular</span><span class="o">.</span><span class="n">_nome</span><span class="p">,</span> <span class="s2">&quot;CPF&quot;</span><span class="p">:</span> <span class="n">conta</span><span class="o">.</span><span class="n">_titular</span><span class="o">.</span><span class="n">_cpf</span><span class="p">,</span> 
+                             <span class="s2">&quot;Saldo&quot;</span><span class="p">:</span> <span class="n">conta</span><span class="o">.</span><span class="n">_saldo</span><span class="p">,</span> <span class="s2">&quot;Usuário&quot;</span><span class="p">:</span> <span class="n">conta</span><span class="o">.</span><span class="n">_usuario</span><span class="p">,</span> <span class="s2">&quot;Senha&quot;</span><span class="p">:</span> <span class="nb">hash</span><span class="p">,</span> <span class="s2">&quot;Limite&quot;</span><span class="p">:</span> <span class="n">conta</span><span class="o">.</span><span class="n">_limite</span><span class="p">})</span></div>
+        
+<div class="viewcode-block" id="Banco.remove_conta"><a class="viewcode-back" href="../modulo2.html#banco.Banco.remove_conta">[docs]</a>    <span class="k">def</span> <span class="nf">remove_conta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpf</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá receber o cpf de um cliente, e logo após irá deletar sua conta do banco de dados, através do CPF.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        cpf : str</span>
+<span class="sd">            Recebe o cpf do cliente.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">contas</span><span class="o">.</span><span class="n">delete_one</span><span class="p">({</span><span class="s1">&#39;CPF&#39;</span><span class="p">:</span> <span class="n">cpf</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="Banco.verifica_numero_conta"><a class="viewcode-back" href="../modulo2.html#banco.Banco.verifica_numero_conta">[docs]</a>    <span class="k">def</span> <span class="nf">verifica_numero_conta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá receber o número de uma conta, e logo após irá verificar se a mesma já está cadastrada </span>
+<span class="sd">        no banco de dados.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        numero : str</span>
+<span class="sd">            Recebe o número da conta de um cliente.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">aux</span> <span class="o">=</span> <span class="n">contas</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;Número&quot;</span><span class="p">:</span> <span class="n">numero</span><span class="p">})</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">aux</span> <span class="o">==</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+    
+<div class="viewcode-block" id="Banco.verifica_cpf"><a class="viewcode-back" href="../modulo2.html#banco.Banco.verifica_cpf">[docs]</a>    <span class="k">def</span> <span class="nf">verifica_cpf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpf</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá receber o número do cpf de uma cliente, e logo após irá verificar se o mesmo já está cadastrado </span>
+<span class="sd">        no banco de dados.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        cpf : str</span>
+<span class="sd">            Recebe o número do cpf de um cliente.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">aux</span> <span class="o">=</span> <span class="n">contas</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;CPF&quot;</span><span class="p">:</span> <span class="n">cpf</span><span class="p">})</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">aux</span> <span class="o">==</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+    
+<div class="viewcode-block" id="Banco.verifica_conta_login"><a class="viewcode-back" href="../modulo2.html#banco.Banco.verifica_conta_login">[docs]</a>    <span class="k">def</span> <span class="nf">verifica_conta_login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usuario</span><span class="p">,</span> <span class="n">senha</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá receber o usuário e senha de um cliente, e logo após irá verificar se o cliente já está cadastrado </span>
+<span class="sd">        no banco de dados.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        usuario: str</span>
+<span class="sd">            Recebe o nome do usuário de um cliente.</span>
+<span class="sd">        </span>
+<span class="sd">        senha: str</span>
+<span class="sd">            Recebe a senha de um cliente.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">senha</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+        <span class="n">aux</span> <span class="o">=</span> <span class="n">contas</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;Usuário&#39;</span><span class="p">:</span> <span class="n">usuario</span><span class="p">,</span> <span class="s1">&#39;Senha&#39;</span><span class="p">:</span> <span class="nb">hash</span><span class="p">})</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">aux</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">aux</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Banco.saca"><a class="viewcode-back" href="../modulo2.html#banco.Banco.saca">[docs]</a>    <span class="k">def</span> <span class="nf">saca</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpf</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>
+<span class="w">       </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá receber o cpf de um cliente e o valor do saque, e logo após irá verificar se o cliente está cadastrado </span>
+<span class="sd">        no banco de dados, caso esteja, será feito o saque do valor passado.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        cpf: str</span>
+<span class="sd">            Recebe o cpf de um cliente.</span>
+<span class="sd">        </span>
+<span class="sd">        valor: float</span>
+<span class="sd">            Recebe o valor do saque.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+       <span class="n">aux1</span> <span class="o">=</span> <span class="n">contas</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;CPF&#39;</span><span class="p">:</span> <span class="n">cpf</span><span class="p">})</span>
+       <span class="k">if</span><span class="p">(</span><span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Saldo&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">valor</span><span class="p">):</span>
+            <span class="n">valor1</span> <span class="o">=</span> <span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Saldo&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">valor</span>
+            <span class="n">contas</span><span class="o">.</span><span class="n">update_one</span><span class="p">({</span><span class="s1">&#39;CPF&#39;</span><span class="p">:</span> <span class="n">cpf</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$set&#39;</span><span class="p">:{</span><span class="s1">&#39;Saldo&#39;</span><span class="p">:</span> <span class="n">valor1</span><span class="p">}})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adciona_transacao</span><span class="p">(</span><span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CPF&#39;</span><span class="p">),</span> <span class="s1">&#39;saque&#39;</span><span class="p">,</span> <span class="n">valor</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+       <span class="k">else</span><span class="p">:</span>
+           <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Banco.deposita"><a class="viewcode-back" href="../modulo2.html#banco.Banco.deposita">[docs]</a>    <span class="k">def</span> <span class="nf">deposita</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpf</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá receber o cpf de um cliente e o valor do depósito, e logo após irá verificar se o cliente está </span>
+<span class="sd">        cadastrado no banco de dados, caso esteja, será feito o depósito do valor passado.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        cpf: str</span>
+<span class="sd">            Recebe o cpf de um cliente.</span>
+<span class="sd">        </span>
+<span class="sd">        valor: float</span>
+<span class="sd">            Recebe o valor do depósito.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">aux1</span> <span class="o">=</span> <span class="n">contas</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;CPF&#39;</span><span class="p">:</span> <span class="n">cpf</span><span class="p">})</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">aux1</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">valor1</span> <span class="o">=</span> <span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Saldo&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">valor</span>
+            <span class="n">contas</span><span class="o">.</span><span class="n">update_one</span><span class="p">({</span><span class="s1">&#39;CPF&#39;</span><span class="p">:</span> <span class="n">cpf</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$set&#39;</span><span class="p">:{</span><span class="s1">&#39;Saldo&#39;</span><span class="p">:</span> <span class="n">valor1</span><span class="p">}})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adciona_transacao</span><span class="p">(</span><span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CPF&#39;</span><span class="p">),</span> <span class="s1">&#39;deposito&#39;</span><span class="p">,</span> <span class="n">valor</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Banco.transfere"><a class="viewcode-back" href="../modulo2.html#banco.Banco.transfere">[docs]</a>    <span class="k">def</span> <span class="nf">transfere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpf</span><span class="p">,</span> <span class="n">destino</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá receber o cpf de um cliente, o valor da transferência, e o número da conta de destino, </span>
+<span class="sd">        e logo após irá verificar se a conta de origem e destino estão cadastradas no banco de dados, caso esteja, </span>
+<span class="sd">        será feita a transferência do valor passado.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        cpf: str</span>
+<span class="sd">            Recebe o cpf da conta de origem.</span>
+<span class="sd">        </span>
+<span class="sd">        destino: str</span>
+<span class="sd">            Recebe o número da conta de destino.</span>
+
+<span class="sd">        valor: float</span>
+<span class="sd">            Recebe o valor da transferência.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">aux</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">saca</span><span class="p">(</span><span class="n">cpf</span><span class="p">,</span> <span class="n">valor</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">aux</span><span class="p">):</span>
+            <span class="n">aux1</span> <span class="o">=</span> <span class="n">contas</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;Número&#39;</span><span class="p">:</span> <span class="n">destino</span><span class="p">})</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">aux1</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">valor_dep</span> <span class="o">=</span> <span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Saldo&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">valor</span>
+                <span class="n">contas</span><span class="o">.</span><span class="n">update_one</span><span class="p">({</span><span class="s1">&#39;CPF&#39;</span><span class="p">:</span> <span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CPF&#39;</span><span class="p">)},</span> <span class="p">{</span><span class="s1">&#39;$set&#39;</span><span class="p">:{</span><span class="s1">&#39;Saldo&#39;</span><span class="p">:</span> <span class="n">valor_dep</span><span class="p">}})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">adciona_transf</span><span class="p">(</span><span class="n">cpf</span><span class="p">,</span> <span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Número&#39;</span><span class="p">),</span> <span class="n">valor</span><span class="p">)</span>
+                <span class="k">return</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="Banco.extrato"><a class="viewcode-back" href="../modulo2.html#banco.Banco.extrato">[docs]</a>    <span class="k">def</span> <span class="nf">extrato</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpf</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá receber o cpf de um cliente, e logo após irá verificar se o cliente está cadastrado </span>
+<span class="sd">        no banco de dados, caso esteja, será capturado o nome, número da conta e o saldo do cliente, e retornado</span>
+<span class="sd">        no formato de uma string, separados por vírgula.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        cpf: str</span>
+<span class="sd">            Recebe o cpf de um cliente.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">aux1</span> <span class="o">=</span> <span class="n">contas</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;CPF&#39;</span><span class="p">:</span> <span class="n">cpf</span><span class="p">})</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">aux1</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">lista</span> <span class="o">=</span> <span class="p">[</span><span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Nome&#39;</span><span class="p">),</span><span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Número&#39;</span><span class="p">),</span><span class="nb">str</span><span class="p">(</span><span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Saldo&#39;</span><span class="p">))]</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adciona_transacao</span><span class="p">(</span><span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CPF&#39;</span><span class="p">),</span> <span class="s1">&#39;extrato&#39;</span><span class="p">,</span> <span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Saldo&#39;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">dados</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+    
+<div class="viewcode-block" id="Banco.adciona_transacao"><a class="viewcode-back" href="../modulo2.html#banco.Banco.adciona_transacao">[docs]</a>    <span class="k">def</span> <span class="nf">adciona_transacao</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">tipo</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        O método irá receber o cpf de um cliente, o tipo de transação e o valor do saque. Logo após, a transação será </span>
+<span class="sd">        adcionada ao banco de dados.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        user: str</span>
+<span class="sd">            Recebe o cpf de um cliente.</span>
+
+<span class="sd">        tipo:</span>
+<span class="sd">            Recebe o tipo da transação.</span>
+<span class="sd">        </span>
+<span class="sd">        valor:</span>
+<span class="sd">            Recebe o valor da transação.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">tipo</span> <span class="o">==</span> <span class="s1">&#39;saque&#39;</span><span class="p">):</span>
+            <span class="n">historicos</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span><span class="s1">&#39;id_user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s1">&#39;Transação&#39;</span><span class="p">:</span> <span class="s1">&#39;saque de </span><span class="si">{}</span><span class="s1"> - Data: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valor</span><span class="p">,</span> <span class="n">data</span><span class="p">)})</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">tipo</span> <span class="o">==</span> <span class="s1">&#39;deposito&#39;</span><span class="p">):</span>
+            <span class="n">historicos</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span><span class="s1">&#39;id_user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s1">&#39;Transação&#39;</span><span class="p">:</span> <span class="s1">&#39;Depósito de </span><span class="si">{}</span><span class="s1"> - Data: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valor</span><span class="p">,</span> <span class="n">data</span><span class="p">)})</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">tipo</span> <span class="o">==</span> <span class="s1">&#39;extrato&#39;</span><span class="p">):</span>
+            <span class="n">historicos</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span><span class="s1">&#39;id_user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s1">&#39;Transação&#39;</span><span class="p">:</span> <span class="s1">&#39;Tirou extrato - Saldo:</span><span class="si">{}</span><span class="s1"> - Data: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valor</span><span class="p">,</span> <span class="n">data</span><span class="p">)})</span></div>
+        
+<div class="viewcode-block" id="Banco.adciona_transf"><a class="viewcode-back" href="../modulo2.html#banco.Banco.adciona_transf">[docs]</a>    <span class="k">def</span> <span class="nf">adciona_transf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origem</span><span class="p">,</span> <span class="n">destino</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Método irá receber o cpf da conta de origem, o número da conta de destino e o valor da transferência, e logo</span>
+<span class="sd">        após, será inserida a transferência no banco de dados.</span>
+
+<span class="sd">        Parameters</span>
+
+<span class="sd">        origem: str</span>
+<span class="sd">            Recebe o CPF da conta de origem.</span>
+<span class="sd">        </span>
+<span class="sd">        destino: str</span>
+<span class="sd">            Recebe o número da conta de destino.</span>
+<span class="sd">        </span>
+<span class="sd">        valor: float</span>
+<span class="sd">            Recebe o valor da transferência.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">aux</span> <span class="o">=</span> <span class="n">contas</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;Número&#39;</span><span class="p">:</span> <span class="n">destino</span><span class="p">})</span>
+        <span class="n">aux1</span> <span class="o">=</span> <span class="n">contas</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;CPF&#39;</span><span class="p">:</span> <span class="n">origem</span><span class="p">})</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+        <span class="n">historicos</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span><span class="s1">&#39;id_user&#39;</span><span class="p">:</span> <span class="n">origem</span><span class="p">,</span> <span class="s1">&#39;Transação&#39;</span><span class="p">:</span> <span class="s1">&#39;Transferência de </span><span class="si">{}</span><span class="s1"> para conta </span><span class="si">{}</span><span class="s1"> - Data: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valor</span><span class="p">,</span> <span class="n">destino</span><span class="p">,</span> <span class="n">data</span><span class="p">)})</span>
+        <span class="n">historicos</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span><span class="s1">&#39;id_user&#39;</span><span class="p">:</span> <span class="n">aux</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CPF&#39;</span><span class="p">),</span> <span class="s1">&#39;Transação&#39;</span><span class="p">:</span> <span class="s1">&#39;Transferência de </span><span class="si">{}</span><span class="s1"> recebda da conta </span><span class="si">{}</span><span class="s1">- Data: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valor</span><span class="p">,</span> <span class="n">aux1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Número&#39;</span><span class="p">),</span> <span class="n">data</span><span class="p">)})</span></div>
+
+<div class="viewcode-block" id="Banco.retorna_historico"><a class="viewcode-back" href="../modulo2.html#banco.Banco.retorna_historico">[docs]</a>    <span class="k">def</span> <span class="nf">retorna_historico</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpf</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Método recebe o cpf da conta a ser retornado o histórico, e logo após, será feita uma busca do histórico </span>
+<span class="sd">        no banco de dados, daquele determinado cpf. E por fim, será retornada uma lista cotendo todas as transações.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        </span>
+<span class="sd">        cpf: str</span>
+<span class="sd">            Recebe o CPF da conta a ser buscado o histórico.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lista</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">historicos</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;id_user&#39;</span><span class="p">:</span> <span class="n">cpf</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;Transação&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}):</span>
+            <span class="n">lista</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="n">aux</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">aux</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">lista</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, David.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

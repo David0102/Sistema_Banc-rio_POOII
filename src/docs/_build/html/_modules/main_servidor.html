@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>main_servidor &mdash; Sistema_Bancario 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Sistema_Bancario
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Sistema_Bancario_POOII</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sistema_Bancario</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">main_servidor</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for main_servidor</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">socket</span><span class="o">,</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">conta</span> <span class="kn">import</span> <span class="n">Conta</span>
+<span class="kn">from</span> <span class="nn">banco</span> <span class="kn">import</span> <span class="n">Banco</span>
+<span class="kn">from</span> <span class="nn">cliente</span> <span class="kn">import</span> <span class="n">Cliente</span>
+
+<div class="viewcode-block" id="menu"><a class="viewcode-back" href="../modulo2.html#main_servidor.menu">[docs]</a><span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">cliente</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Método que irá receber as mensagens de controle do cliente, contendo um código de uma determinada operação.</span>
+<span class="sd">    Logo após realizar as devidas operações, será retornado dados ou mensagens de controle para o cliente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">banco</span> <span class="o">=</span> <span class="n">Banco</span><span class="p">()</span>
+    <span class="n">connect</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">connect</span><span class="p">):</span>
+
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Cliente fechou o programa.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">cliente</span><span class="p">,</span> <span class="s2">&quot;Desconectado!&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+        
+        <span class="k">elif</span><span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Cliente solicitou um cadastro.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="n">lista_dados</span> <span class="o">=</span> <span class="n">dados</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+            <span class="n">aux</span> <span class="o">=</span> <span class="n">banco</span><span class="o">.</span><span class="n">verifica_numero_conta</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">aux</span><span class="p">):</span>    
+                <span class="n">aux1</span> <span class="o">=</span> <span class="n">banco</span><span class="o">.</span><span class="n">verifica_cpf</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">aux1</span><span class="p">):</span>
+                    <span class="n">cliente</span> <span class="o">=</span> <span class="n">Cliente</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lista_dados</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">conta</span> <span class="o">=</span> <span class="n">Conta</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">cliente</span><span class="p">,</span> <span class="n">lista_dados</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">lista_dados</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+                    <span class="n">banco</span><span class="o">.</span><span class="n">adciona_conta</span><span class="p">(</span><span class="n">conta</span><span class="p">)</span>
+                    <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+        <span class="k">elif</span><span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Cliente solicitou um login.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="n">lista_login</span> <span class="o">=</span> <span class="n">dados</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">banco</span><span class="o">.</span><span class="n">verifica_conta_login</span><span class="p">(</span><span class="n">lista_login</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lista_login</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">user</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">user_login</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CPF&#39;</span><span class="p">),</span><span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Usuário&#39;</span><span class="p">)]</span>
+                <span class="n">user_login1</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">user_login</span><span class="p">)</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user_login1</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            
+        <span class="k">elif</span><span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="mi">4</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Cliente solicitou um saque.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="n">lista_saque</span> <span class="o">=</span> <span class="n">dados</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">valor_saque</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lista_saque</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="n">aux_saq</span> <span class="o">=</span> <span class="n">banco</span><span class="o">.</span><span class="n">saca</span><span class="p">(</span><span class="n">lista_saque</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">valor_saque</span><span class="p">)</span>
+
+            <span class="k">if</span><span class="p">(</span><span class="n">aux_saq</span><span class="p">):</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        
+        <span class="k">elif</span><span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="mi">5</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Cliente solicitou um depósito.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="n">lista_depo</span> <span class="o">=</span> <span class="n">dados</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">valor_deposito</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lista_depo</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="n">aux_dep</span> <span class="o">=</span> <span class="n">banco</span><span class="o">.</span><span class="n">deposita</span><span class="p">(</span><span class="n">lista_depo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">valor_deposito</span><span class="p">)</span>
+
+            <span class="k">if</span><span class="p">(</span><span class="n">aux_dep</span><span class="p">):</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+        <span class="k">elif</span><span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="mi">6</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Cliente solicitou uma transferência.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="n">lista_deposito</span> <span class="o">=</span> <span class="n">dados</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">valor_trans</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lista_deposito</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">aux_trans</span> <span class="o">=</span> <span class="n">banco</span><span class="o">.</span><span class="n">transfere</span><span class="p">(</span><span class="n">lista_deposito</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lista_deposito</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">valor_trans</span><span class="p">)</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">aux_trans</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+            <span class="k">elif</span><span class="p">(</span><span class="n">aux_trans</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        
+        <span class="k">elif</span><span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="mi">7</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Cliente solicitou o extrato.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">user_extrato</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="n">dados_extrato</span> <span class="o">=</span> <span class="n">banco</span><span class="o">.</span><span class="n">extrato</span><span class="p">(</span><span class="n">user_extrato</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">dados_extrato</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">dados_extrato</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        
+        <span class="k">elif</span><span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="mi">8</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Cliente solicitou remoção da conta.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">user_remover</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="n">banco</span><span class="o">.</span><span class="n">remove_conta</span><span class="p">(</span><span class="n">user_remover</span><span class="p">)</span>
+            <span class="n">banco</span><span class="o">.</span><span class="n">deslogar</span><span class="p">()</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        
+        <span class="k">elif</span><span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="mi">9</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Cliente solicitou o histórico.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">user_historico</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="n">lista_hist</span> <span class="o">=</span> <span class="n">banco</span><span class="o">.</span><span class="n">retorna_historico</span><span class="p">(</span><span class="n">user_historico</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">lista_hist</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">lista_hist1</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lista_hist</span><span class="p">)</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">lista_hist1</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../modulo2.html#main_servidor.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Método para criar o socket com o ip e a porta solicitada, e realizar a criação das threads.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;192.168.1.16&#39;</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="mi">3000</span>
+    <span class="n">addr</span> <span class="o">=</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aguardando conexão...&quot;</span><span class="p">)</span>
+    <span class="n">serv_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">serv_socket</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+    <span class="n">serv_socket</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">con</span><span class="p">,</span> <span class="n">cliente</span> <span class="o">=</span> <span class="n">serv_socket</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cliente</span><span class="p">,</span><span class="s2">&quot;Conectado!&quot;</span><span class="p">)</span>
+        <span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">menu</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">cliente</span><span class="p">))</span>
+        <span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, David.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

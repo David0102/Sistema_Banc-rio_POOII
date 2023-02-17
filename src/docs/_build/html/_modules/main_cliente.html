@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>main_cliente &mdash; Sistema_Bancario 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Sistema_Bancario
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Sistema_Bancario_POOII</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sistema_Bancario</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">main_cliente</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for main_cliente</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">uic</span><span class="p">,</span> <span class="n">QtWidgets</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QMessageBox</span>
+
+<div class="viewcode-block" id="Login"><a class="viewcode-back" href="../modulo1.html#main_cliente.Login">[docs]</a><span class="k">class</span> <span class="nc">Login</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A classe irá representar o login do usuário.</span>
+
+<span class="sd">    Atributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    login_user : str</span>
+<span class="sd">        Login_user irá receber o cpf do usuário logado para realizar as operações requisitadas.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">login_user</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../modulo1.html#main_cliente.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    O método main irá criar o socket, com o ip e a porta requisitada.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    --------</span>
+<span class="sd">    </span>
+<span class="sd">    def fazer_login():</span>
+<span class="sd">        O método irá enviar o valor 0 para o servidor, para indicar que será realizado um login.</span>
+
+<span class="sd">        O método irá enviar o usuário e senha capturados da tela de login, para o servidor no formato de uma string,</span>
+<span class="sd">        separados por vírgula.</span>
+
+<span class="sd">    def chama_logout():</span>
+<span class="sd">        O método irá deslogar o usuário, ou seja, a variável login_user da classe login irá receber None.</span>
+<span class="sd">    </span>
+<span class="sd">    def chama_tela_cadastro():</span>
+<span class="sd">        O método irá fechar a tela de cadastro e abrir a tela de login.</span>
+<span class="sd">    </span>
+<span class="sd">    def cadastrar():</span>
+<span class="sd">        O método irá enviar o valor 1 para o servidor, para indicar que será realizado um cadastro.</span>
+
+<span class="sd">        O método irá enviar os dados capturados dos campos da tela de cadastro, e logo após irá fazer o envio dos mesmos</span>
+<span class="sd">        para o servidor, no formato de string, e separados por vírgula.</span>
+<span class="sd">    </span>
+<span class="sd">    def chama_tela_saque():</span>
+<span class="sd">        O método irá fechar a tela do dashboard, e logo após irá abrir a tela de saque.</span>
+<span class="sd">    </span>
+<span class="sd">    def sacar():</span>
+<span class="sd">        O método irá enviar o valor 4 para o servidor, para indicar que será realizado um saque.</span>
+<span class="sd">        </span>
+<span class="sd">        O método irá capturar o valor do saque da tela de saque, logo após irá enviar ao servidor no formato</span>
+<span class="sd">        de uma string.</span>
+<span class="sd">    </span>
+<span class="sd">    def chama_tela_dashboard():</span>
+<span class="sd">        O método irá fechar a tela de saque, e abrir a tela do dashboard.</span>
+<span class="sd">    </span>
+<span class="sd">    def chama_tela_deposito():</span>
+<span class="sd">        O método irá fechar a tela do dashboard, e abrir a tela de depósito.</span>
+<span class="sd">    </span>
+<span class="sd">    def chama_deposito():</span>
+<span class="sd">        O método irá enviar o valor 5 para o servidor, para indicar que será realizado um depósito.</span>
+
+<span class="sd">        O método irá capturar o valor do depósito da tela de saque, logo após irá enviar ao servidor no formato</span>
+<span class="sd">        de uma string.</span>
+<span class="sd">    </span>
+<span class="sd">    def chama_tela_transferencia():</span>
+<span class="sd">        O método irá fechar a tela do dashboard, e abrir a tela de transferência.</span>
+<span class="sd">    </span>
+<span class="sd">    def transferir():</span>
+<span class="sd">        O método irá enviar o valor 6 para o servidor, para indicar que será realizado uma transferência.</span>
+
+<span class="sd">        O método irá capturar o número da conta e o valor da transferência da tela de transferência, e logo após</span>
+<span class="sd">        irá enviar para o servidor no formato de uma string, separados por vírgula.</span>
+<span class="sd">    </span>
+<span class="sd">    def chama_tela_extrato():</span>
+<span class="sd">        O método irá enviar o valor 7 para o servidor, para indicar que será requisitado o extrato da conta.</span>
+<span class="sd">    </span>
+<span class="sd">    def voltar_extrato_dashboard():</span>
+<span class="sd">        O método irá fechar a tela de extrato, e abrir a tela do dashboard.</span>
+<span class="sd">    </span>
+<span class="sd">    def deletar_conta():</span>
+<span class="sd">        O método irá enviar o valor 8 para o servidor, para indicar que uma conta será deletada.</span>
+<span class="sd">    </span>
+<span class="sd">    def voltar_transferencia_dashboard():</span>
+<span class="sd">        O método irá fechar a tela de tranferência, e abrir a tela do dashboard.</span>
+<span class="sd">    </span>
+<span class="sd">    def voltar_deposito_dashboard():</span>
+<span class="sd">        O método irá fechar a tela de deposito, e abrir a tela do dashboard.</span>
+
+<span class="sd">    def voltar_cadastro_login():</span>
+<span class="sd">        O método irá fechar a tela de cadastro, e abrir a tela de login.</span>
+<span class="sd">    </span>
+<span class="sd">    def chama_tela_historico():</span>
+<span class="sd">        O método irá enviar o valor 9 para o servidor, para indicar que será requisitado o histórico da conta.</span>
+<span class="sd">    </span>
+<span class="sd">    def voltar_historico_dashboard():</span>
+<span class="sd">        O método irá fechar a tela de histórico, e abrir a tela do dashboard.</span>
+<span class="sd">    </span>
+<span class="sd">    def finalizar():</span>
+<span class="sd">        O método irá enviar o valor 0 para o servidor, indicando para desconectar o cliente. O socket será fechado, e </span>
+<span class="sd">        a será exibida a tela de login.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ip</span> <span class="o">=</span> <span class="s1">&#39;192.168.1.16&#39;</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="mi">3000</span>
+    <span class="n">addr</span> <span class="o">=</span> <span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+    <span class="n">client_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">login1</span> <span class="o">=</span> <span class="n">Login</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Não foi possível conectar ao servidor!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">()</span>
+
+
+
+    <span class="k">def</span> <span class="nf">fazer_login</span><span class="p">():</span>
+        <span class="n">usuario</span> <span class="o">=</span> <span class="n">login</span><span class="o">.</span><span class="n">lineEdit</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">senha</span> <span class="o">=</span> <span class="n">login</span><span class="o">.</span><span class="n">lineEdit_2</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">usuario</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">senha</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Alerta!&quot;</span><span class="p">,</span> <span class="s2">&quot;Preencha todos os campos!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="n">lista_dados</span> <span class="o">=</span> <span class="p">[</span><span class="n">usuario</span><span class="p">,</span><span class="n">senha</span><span class="p">]</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">)</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">dados</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="n">retorno</span> <span class="o">=</span> <span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">retorno</span> <span class="o">!=</span> <span class="s1">&#39;0&#39;</span><span class="p">):</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="n">retorno</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                <span class="n">login1</span><span class="o">.</span><span class="n">login_user</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">login</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">dashboard</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+                <span class="n">dashboard</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Olá </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Alerta!&quot;</span><span class="p">,</span> <span class="s2">&quot;Login realizado com sucesso!&quot;</span><span class="p">)</span>
+
+            <span class="k">elif</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">):</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Alerta!&quot;</span><span class="p">,</span> <span class="s2">&quot;Usuário ou senha incorreta!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">chama_logout</span><span class="p">():</span>
+            <span class="n">login1</span><span class="o">.</span><span class="n">login_user</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">dashboard</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">login</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Logout realizado com sucesso!&quot;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">chama_tela_cadastro</span><span class="p">():</span>
+        <span class="n">login</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">cadastro</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">cadastrar</span><span class="p">():</span>
+        <span class="n">nome</span> <span class="o">=</span> <span class="n">cadastro</span><span class="o">.</span><span class="n">lineEdit</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">cpf</span> <span class="o">=</span> <span class="n">cadastro</span><span class="o">.</span><span class="n">lineEdit_2</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">numConta</span> <span class="o">=</span> <span class="n">cadastro</span><span class="o">.</span><span class="n">lineEdit_3</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">usuario</span> <span class="o">=</span> <span class="n">cadastro</span><span class="o">.</span><span class="n">lineEdit_5</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">senha</span> <span class="o">=</span> <span class="n">cadastro</span><span class="o">.</span><span class="n">lineEdit_6</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">nome</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">cpf</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">numConta</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">usuario</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">senha</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Alerta!&quot;</span><span class="p">,</span> <span class="s2">&quot;Preencha todos os campos!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="n">lista_dados</span> <span class="o">=</span> <span class="p">[</span><span class="n">nome</span><span class="p">,</span><span class="n">cpf</span><span class="p">,</span><span class="n">numConta</span><span class="p">,</span><span class="n">usuario</span><span class="p">,</span><span class="n">senha</span><span class="p">]</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">)</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">dados</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+            <span class="n">retorno</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">cadastro</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">login</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Cadastro realizado com sucesso!&quot;</span><span class="p">)</span>
+
+            <span class="k">elif</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;CPF ou Número da conta já cadastrado!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">chama_tela_saque</span><span class="p">():</span>
+        <span class="n">dashboard</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">saque</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">sacar</span><span class="p">():</span>
+        <span class="n">valor</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">saque</span><span class="o">.</span><span class="n">lineEdit</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">valor</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">):</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Valor inválido!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;4&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="n">lista_saque</span> <span class="o">=</span> <span class="p">[</span><span class="n">login1</span><span class="o">.</span><span class="n">login_user</span><span class="p">,</span><span class="n">valor</span><span class="p">]</span>
+            <span class="n">aux</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lista_saque</span><span class="p">)</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">aux</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+            <span class="n">retorno</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+                
+            <span class="k">if</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">saque</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">dashboard</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Saque realizado com sucesso!&quot;</span><span class="p">)</span>
+
+            <span class="k">elif</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Saldo insuficiente!&quot;</span><span class="p">)</span>
+            
+    <span class="k">def</span> <span class="nf">chama_tela_dashboard</span><span class="p">():</span>
+        <span class="n">saque</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">dashboard</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">chama_tela_deposito</span><span class="p">():</span>
+        <span class="n">dashboard</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">deposito</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">chama_deposito</span><span class="p">():</span>
+        <span class="n">valor</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">deposito</span><span class="o">.</span><span class="n">lineEdit</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">valor</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">):</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Valor inválido!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="n">aux</span> <span class="o">=</span> <span class="p">[</span><span class="n">login1</span><span class="o">.</span><span class="n">login_user</span><span class="p">,</span><span class="n">valor</span><span class="p">]</span>
+            <span class="n">lista_deposito</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aux</span><span class="p">)</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">lista_deposito</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+            <span class="n">retorno</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+                
+            <span class="k">if</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">deposito</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">dashboard</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Depósito realizado com sucesso!&quot;</span><span class="p">)</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Erro ao realizar depósito!&quot;</span><span class="p">)</span>
+        
+
+    <span class="k">def</span> <span class="nf">chama_tela_transferencia</span><span class="p">():</span>
+        <span class="n">dashboard</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">transferencia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">transferir</span><span class="p">():</span>
+        <span class="n">numConta</span> <span class="o">=</span> <span class="n">transferencia</span><span class="o">.</span><span class="n">lineEdit</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">valor</span> <span class="o">=</span> <span class="n">transferencia</span><span class="o">.</span><span class="n">lineEdit_2</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">valor</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">):</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Valor inválido!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+            <span class="n">lista_dados</span> <span class="o">=</span> <span class="p">[</span><span class="n">login1</span><span class="o">.</span><span class="n">login_user</span><span class="p">,</span><span class="n">numConta</span><span class="p">,</span><span class="n">valor</span><span class="p">]</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">)</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">dados</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        
+            <span class="n">retorno</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+                
+            <span class="k">if</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">transferencia</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">dashboard</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Transferência realizada com sucesso!&quot;</span><span class="p">)</span>
+
+            <span class="k">elif</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Número da conta inválido!&quot;</span><span class="p">)</span>
+
+            <span class="k">elif</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Saldo insuficiente!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">chama_tela_extrato</span><span class="p">():</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">login1</span><span class="o">.</span><span class="n">login_user</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="n">dashboard</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">extrato</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="n">retorno</span> <span class="o">=</span> <span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">retorno</span> <span class="o">!=</span> <span class="s1">&#39;0&#39;</span><span class="p">):</span>
+            <span class="n">lista_dados</span> <span class="o">=</span> <span class="n">retorno</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">extrato</span><span class="o">.</span><span class="n">lineEdit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">extrato</span><span class="o">.</span><span class="n">lineEdit_2</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">extrato</span><span class="o">.</span><span class="n">lineEdit_3</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">lista_dados</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Erro ao mostrar extrato!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">voltar_extrato_dashboard</span><span class="p">():</span>
+        <span class="n">extrato</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">dashboard</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">deletar_conta</span><span class="p">():</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="n">user_deletar</span> <span class="o">=</span> <span class="n">login1</span><span class="o">.</span><span class="n">login_user</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user_deletar</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="n">retorno</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">retorno</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">dashboard</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">login</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;Conta excluída com sucesso!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">voltar_transferencia_dashboard</span><span class="p">():</span>
+        <span class="n">transferencia</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">dashboard</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">voltar_deposito_dashboard</span><span class="p">():</span>
+        <span class="n">deposito</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">dashboard</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">voltar_cadastro_login</span><span class="p">():</span>
+        <span class="n">cadastro</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">login</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">chama_tela_historico</span><span class="p">():</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="n">user_historico</span> <span class="o">=</span> <span class="n">login1</span><span class="o">.</span><span class="n">login_user</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user_historico</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="n">retorno</span> <span class="o">=</span> <span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">retorno</span> <span class="o">!=</span> <span class="s1">&#39;0&#39;</span><span class="p">):</span>
+            <span class="n">dashboard</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">historico</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="n">lista</span> <span class="o">=</span> <span class="n">retorno</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">historico</span><span class="o">.</span><span class="n">label_3</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Aviso!&quot;</span><span class="p">,</span> <span class="s2">&quot;O histórico está vazio!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">voltar_historico_dashboard</span><span class="p">():</span>
+        <span class="n">historico</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">dashboard</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">finalizar</span><span class="p">():</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">login</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">uic</span><span class="o">.</span><span class="n">loadUi</span><span class="p">(</span><span class="s2">&quot;Telas/login.ui&quot;</span><span class="p">)</span>
+    <span class="n">cadastro</span> <span class="o">=</span> <span class="n">uic</span><span class="o">.</span><span class="n">loadUi</span><span class="p">(</span><span class="s2">&quot;Telas/cadastro.ui&quot;</span><span class="p">)</span>
+    <span class="n">dashboard</span> <span class="o">=</span> <span class="n">uic</span><span class="o">.</span><span class="n">loadUi</span><span class="p">(</span><span class="s2">&quot;Telas/dashboard.ui&quot;</span><span class="p">)</span>
+    <span class="n">saque</span> <span class="o">=</span> <span class="n">uic</span><span class="o">.</span><span class="n">loadUi</span><span class="p">(</span><span class="s2">&quot;Telas/saque.ui&quot;</span><span class="p">)</span>
+    <span class="n">deposito</span> <span class="o">=</span> <span class="n">uic</span><span class="o">.</span><span class="n">loadUi</span><span class="p">(</span><span class="s2">&quot;Telas/deposito.ui&quot;</span><span class="p">)</span>
+    <span class="n">transferencia</span> <span class="o">=</span> <span class="n">uic</span><span class="o">.</span><span class="n">loadUi</span><span class="p">(</span><span class="s2">&quot;Telas/transferencia.ui&quot;</span><span class="p">)</span>
+    <span class="n">extrato</span> <span class="o">=</span> <span class="n">uic</span><span class="o">.</span><span class="n">loadUi</span><span class="p">(</span><span class="s2">&quot;Telas/extrato.ui&quot;</span><span class="p">)</span>
+    <span class="n">historico</span> <span class="o">=</span> <span class="n">uic</span><span class="o">.</span><span class="n">loadUi</span><span class="p">(</span><span class="s2">&quot;Telas/historico.ui&quot;</span><span class="p">)</span>
+
+
+
+    <span class="n">login</span><span class="o">.</span><span class="n">pushButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">fazer_login</span><span class="p">)</span>
+    <span class="n">login</span><span class="o">.</span><span class="n">pushButton_2</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">chama_tela_cadastro</span><span class="p">)</span>
+    <span class="n">cadastro</span><span class="o">.</span><span class="n">pushButton_2</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">cadastrar</span><span class="p">)</span>
+    <span class="n">cadastro</span><span class="o">.</span><span class="n">pushButton_3</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">voltar_cadastro_login</span><span class="p">)</span>
+    <span class="n">dashboard</span><span class="o">.</span><span class="n">pushButton_2</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">chama_tela_saque</span><span class="p">)</span>
+    <span class="n">dashboard</span><span class="o">.</span><span class="n">pushButton_3</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">chama_tela_deposito</span><span class="p">)</span>
+    <span class="n">dashboard</span><span class="o">.</span><span class="n">pushButton_5</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">chama_tela_extrato</span><span class="p">)</span>
+    <span class="n">dashboard</span><span class="o">.</span><span class="n">pushButton_6</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">chama_tela_historico</span><span class="p">)</span>
+    <span class="n">dashboard</span><span class="o">.</span><span class="n">pushButton_7</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">chama_logout</span><span class="p">)</span>
+    <span class="n">dashboard</span><span class="o">.</span><span class="n">pushButton_4</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">chama_tela_transferencia</span><span class="p">)</span>
+    <span class="n">saque</span><span class="o">.</span><span class="n">pushButton_8</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">sacar</span><span class="p">)</span>
+    <span class="n">saque</span><span class="o">.</span><span class="n">pushButton_9</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">chama_tela_dashboard</span><span class="p">)</span>
+    <span class="n">deposito</span><span class="o">.</span><span class="n">pushButton_8</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">chama_deposito</span><span class="p">)</span>
+    <span class="n">deposito</span><span class="o">.</span><span class="n">pushButton_9</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">voltar_deposito_dashboard</span><span class="p">)</span>
+    <span class="n">transferencia</span><span class="o">.</span><span class="n">pushButton_8</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transferir</span><span class="p">)</span>
+    <span class="n">transferencia</span><span class="o">.</span><span class="n">pushButton_9</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">voltar_transferencia_dashboard</span><span class="p">)</span>
+    <span class="n">extrato</span><span class="o">.</span><span class="n">pushButton_8</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">voltar_extrato_dashboard</span><span class="p">)</span>
+    <span class="n">dashboard</span><span class="o">.</span><span class="n">pushButton_8</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">deletar_conta</span><span class="p">)</span>
+    <span class="n">historico</span><span class="o">.</span><span class="n">pushButton_6</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">voltar_historico_dashboard</span><span class="p">)</span>
+    <span class="n">login</span><span class="o">.</span><span class="n">pushButton_3</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">finalizar</span><span class="p">)</span>
+
+    <span class="n">login</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, David.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

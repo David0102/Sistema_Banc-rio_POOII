@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servidor &mdash; Sistema_Bancario 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Cliente" href="modulo1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Sistema_Bancario
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Sistema_Bancario_POOII</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="modulo1.html">Cliente</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Servidor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#main_servidor.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main_servidor.menu"><code class="docutils literal notranslate"><span class="pre">menu()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#banco.Banco"><code class="docutils literal notranslate"><span class="pre">Banco</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.adciona_conta"><code class="docutils literal notranslate"><span class="pre">Banco.adciona_conta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.adciona_transacao"><code class="docutils literal notranslate"><span class="pre">Banco.adciona_transacao()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.adciona_transf"><code class="docutils literal notranslate"><span class="pre">Banco.adciona_transf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.deposita"><code class="docutils literal notranslate"><span class="pre">Banco.deposita()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.extrato"><code class="docutils literal notranslate"><span class="pre">Banco.extrato()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.remove_conta"><code class="docutils literal notranslate"><span class="pre">Banco.remove_conta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.retorna_historico"><code class="docutils literal notranslate"><span class="pre">Banco.retorna_historico()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.saca"><code class="docutils literal notranslate"><span class="pre">Banco.saca()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.transfere"><code class="docutils literal notranslate"><span class="pre">Banco.transfere()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.verifica_conta_login"><code class="docutils literal notranslate"><span class="pre">Banco.verifica_conta_login()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.verifica_cpf"><code class="docutils literal notranslate"><span class="pre">Banco.verifica_cpf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco.Banco.verifica_numero_conta"><code class="docutils literal notranslate"><span class="pre">Banco.verifica_numero_conta()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cliente.Cliente"><code class="docutils literal notranslate"><span class="pre">Cliente</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conta.Conta"><code class="docutils literal notranslate"><span class="pre">Conta</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Sistema_Bancario</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Sistema_Bancario_POOII</a></li>
+      <li class="breadcrumb-item active">Servidor</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modulo2.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-main_servidor">
+<span id="servidor"></span><h1>Servidor<a class="headerlink" href="#module-main_servidor" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="main_servidor.main">
+<span class="sig-prename descclassname"><span class="pre">main_servidor.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_servidor.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_servidor.main" title="Permalink to this definition"></a></dt>
+<dd><p>Método para criar o socket com o ip e a porta solicitada, e realizar a criação das threads.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main_servidor.menu">
+<span class="sig-prename descclassname"><span class="pre">main_servidor.</span></span><span class="sig-name descname"><span class="pre">menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">con</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cliente</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_servidor.html#menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_servidor.menu" title="Permalink to this definition"></a></dt>
+<dd><p>Método que irá receber as mensagens de controle do cliente, contendo um código de uma determinada operação.
+Logo após realizar as devidas operações, será retornado dados ou mensagens de controle para o cliente.</p>
+</dd></dl>
+
+<span class="target" id="module-banco"></span><dl class="py class">
+<dt class="sig sig-object py" id="banco.Banco">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">banco.</span></span><span class="sig-name descname"><span class="pre">Banco</span></span><a class="reference internal" href="_modules/banco.html#Banco"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco" title="Permalink to this definition"></a></dt>
+<dd><p>A classe banco irá conter os métodos que irão realizar as operações requisitadas pelo cliente na sua
+determinada conta.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.adciona_conta">
+<span class="sig-name descname"><span class="pre">adciona_conta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.adciona_conta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.adciona_conta" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá passar os dados do objeto para o banco de dados.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>conta<span class="classifier">object</span></dt><dd><p>Recebe a conta de um cliente.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.adciona_transacao">
+<span class="sig-name descname"><span class="pre">adciona_transacao</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tipo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.adciona_transacao"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.adciona_transacao" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá receber o cpf de um cliente, o tipo de transação e o valor do saque. Logo após, a transação será 
+adcionada ao banco de dados.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>user: str</dt><dd><p>Recebe o cpf de um cliente.</p>
+</dd>
+<dt>tipo:</dt><dd><p>Recebe o tipo da transação.</p>
+</dd>
+<dt>valor:</dt><dd><p>Recebe o valor da transação.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.adciona_transf">
+<span class="sig-name descname"><span class="pre">adciona_transf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destino</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.adciona_transf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.adciona_transf" title="Permalink to this definition"></a></dt>
+<dd><p>Método irá receber o cpf da conta de origem, o número da conta de destino e o valor da transferência, e logo
+após, será inserida a transferência no banco de dados.</p>
+<p>Parameters</p>
+<dl class="simple">
+<dt>origem: str</dt><dd><p>Recebe o CPF da conta de origem.</p>
+</dd>
+<dt>destino: str</dt><dd><p>Recebe o número da conta de destino.</p>
+</dd>
+<dt>valor: float</dt><dd><p>Recebe o valor da transferência.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.deposita">
+<span class="sig-name descname"><span class="pre">deposita</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.deposita"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.deposita" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá receber o cpf de um cliente e o valor do depósito, e logo após irá verificar se o cliente está 
+cadastrado no banco de dados, caso esteja, será feito o depósito do valor passado.</p>
+<section id="id2">
+<h2>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>cpf: str</dt><dd><p>Recebe o cpf de um cliente.</p>
+</dd>
+<dt>valor: float</dt><dd><p>Recebe o valor do depósito.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.extrato">
+<span class="sig-name descname"><span class="pre">extrato</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.extrato"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.extrato" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá receber o cpf de um cliente, e logo após irá verificar se o cliente está cadastrado 
+no banco de dados, caso esteja, será capturado o nome, número da conta e o saldo do cliente, e retornado
+no formato de uma string, separados por vírgula.</p>
+<section id="id3">
+<h2>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>cpf: str</dt><dd><p>Recebe o cpf de um cliente.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.remove_conta">
+<span class="sig-name descname"><span class="pre">remove_conta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.remove_conta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.remove_conta" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá receber o cpf de um cliente, e logo após irá deletar sua conta do banco de dados, através do CPF.</p>
+<section id="id4">
+<h2>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>cpf<span class="classifier">str</span></dt><dd><p>Recebe o cpf do cliente.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.retorna_historico">
+<span class="sig-name descname"><span class="pre">retorna_historico</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.retorna_historico"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.retorna_historico" title="Permalink to this definition"></a></dt>
+<dd><p>Método recebe o cpf da conta a ser retornado o histórico, e logo após, será feita uma busca do histórico 
+no banco de dados, daquele determinado cpf. E por fim, será retornada uma lista cotendo todas as transações.</p>
+<p>Parameters</p>
+<dl class="simple">
+<dt>cpf: str</dt><dd><p>Recebe o CPF da conta a ser buscado o histórico.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.saca">
+<span class="sig-name descname"><span class="pre">saca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.saca"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.saca" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá receber o cpf de um cliente e o valor do saque, e logo após irá verificar se o cliente está cadastrado 
+no banco de dados, caso esteja, será feito o saque do valor passado.</p>
+<section id="id5">
+<h2>Parameters<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>cpf: str</dt><dd><p>Recebe o cpf de um cliente.</p>
+</dd>
+<dt>valor: float</dt><dd><p>Recebe o valor do saque.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.transfere">
+<span class="sig-name descname"><span class="pre">transfere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destino</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.transfere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.transfere" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá receber o cpf de um cliente, o valor da transferência, e o número da conta de destino, 
+e logo após irá verificar se a conta de origem e destino estão cadastradas no banco de dados, caso esteja, 
+será feita a transferência do valor passado.</p>
+<section id="id6">
+<h2>Parameters<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>cpf: str</dt><dd><p>Recebe o cpf da conta de origem.</p>
+</dd>
+<dt>destino: str</dt><dd><p>Recebe o número da conta de destino.</p>
+</dd>
+<dt>valor: float</dt><dd><p>Recebe o valor da transferência.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.verifica_conta_login">
+<span class="sig-name descname"><span class="pre">verifica_conta_login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usuario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">senha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.verifica_conta_login"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.verifica_conta_login" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá receber o usuário e senha de um cliente, e logo após irá verificar se o cliente já está cadastrado 
+no banco de dados.</p>
+<section id="id7">
+<h2>Parameters<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>usuario: str</dt><dd><p>Recebe o nome do usuário de um cliente.</p>
+</dd>
+<dt>senha: str</dt><dd><p>Recebe a senha de um cliente.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.verifica_cpf">
+<span class="sig-name descname"><span class="pre">verifica_cpf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.verifica_cpf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.verifica_cpf" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá receber o número do cpf de uma cliente, e logo após irá verificar se o mesmo já está cadastrado 
+no banco de dados.</p>
+<section id="id8">
+<h2>Parameters<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>cpf<span class="classifier">str</span></dt><dd><p>Recebe o número do cpf de um cliente.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco.Banco.verifica_numero_conta">
+<span class="sig-name descname"><span class="pre">verifica_numero_conta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco.html#Banco.verifica_numero_conta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco.Banco.verifica_numero_conta" title="Permalink to this definition"></a></dt>
+<dd><p>O método irá receber o número de uma conta, e logo após irá verificar se a mesma já está cadastrada 
+no banco de dados.</p>
+<section id="id9">
+<h2>Parameters<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>numero<span class="classifier">str</span></dt><dd><p>Recebe o número da conta de um cliente.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-cliente"></span><dl class="py class">
+<dt class="sig sig-object py" id="cliente.Cliente">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cliente.</span></span><span class="sig-name descname"><span class="pre">Cliente</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nome</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cliente.html#Cliente"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliente.Cliente" title="Permalink to this definition"></a></dt>
+<dd><p>Uma classe para representar o cliente.</p>
+<p>…</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>nome<span class="classifier">str</span></dt><dd><p>Recebe o nome do cliente.</p>
+</dd>
+<dt>cpf<span class="classifier">str</span></dt><dd><p>Recebe o CPF do cliente.</p>
+</dd>
+</dl>
+</section>
+<section id="constructor">
+<h2>Constructor<a class="headerlink" href="#constructor" title="Permalink to this heading"></a></h2>
+</section>
+<section id="parameteres">
+<h2>Parameteres<a class="headerlink" href="#parameteres" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>nome: str</dt><dd><p>Recebe o nome do cliente.</p>
+</dd>
+<dt>cpf: str</dt><dd><p>Recebe o CPF do cliente.</p>
+</dd>
+</dl>
+</section>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>def nome(self):</dt><dd><p>Método para retornar o nome do cliente.</p>
+</dd>
+<dt>def nome(self, nome):</dt><dd><p>Método para alterar o nome do cliente.</p>
+</dd>
+<dt>def cpf(self):</dt><dd><p>Método para retornar o CPF do cliente.</p>
+</dd>
+<dt>def cpf(self, cpf):</dt><dd><p>Metodo para alterar o CPF do cliente.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<span class="target" id="module-conta"></span><dl class="py class">
+<dt class="sig sig-object py" id="conta.Conta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">conta.</span></span><span class="sig-name descname"><span class="pre">Conta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cliente</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usuario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">senha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saldo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/conta.html#Conta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#conta.Conta" title="Permalink to this definition"></a></dt>
+<dd><p>Uma classe para representar a conta.</p>
+<p>…</p>
+<section id="id10">
+<h2>Attributes<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>numero<span class="classifier">str</span></dt><dd><p>Recebe número da conta.</p>
+</dd>
+<dt>titular<span class="classifier">object</span></dt><dd><p>Recebe um objeto do tipo cliente.</p>
+</dd>
+<dt>saldo<span class="classifier">float</span></dt><dd><p>Recebe o valor do saldo da conta.</p>
+</dd>
+<dt>usuario<span class="classifier">str</span></dt><dd><p>Recebe o nome de usuário da conta.</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>Recebe senha do usuário da conta.</p>
+</dd>
+<dt>limite<span class="classifier">float</span></dt><dd><p>Recebe o valor do limite da conta.</p>
+</dd>
+<dt>data_transacao<span class="classifier">date</span></dt><dd><p>Recebe a data de uma determinada transação.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h2>Constructor<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
+</section>
+<section id="id12">
+<h2>Parameters<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
+<p>Constrói todos os atributos necessários para o objeto cliente.</p>
+<dl class="simple">
+<dt>numero<span class="classifier">str</span></dt><dd><p>Recebe o número da conta.</p>
+</dd>
+<dt>cliente<span class="classifier">object</span></dt><dd><p>Recebe um objeto do tipo cliente.</p>
+</dd>
+<dt>usuario<span class="classifier">str</span></dt><dd><p>Recebe o nome de usuário da conta.</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>Recebe senha do usuário da conta.</p>
+</dd>
+<dt>limite<span class="classifier">float</span></dt><dd><p>Recebe um valor limite por padrão.</p>
+</dd>
+<dt>saldo<span class="classifier">float</span></dt><dd><p>Recebe o valor “0” por padrão.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h2>Methods<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>def numero(self):</dt><dd><p>Método para retornar o número da conta.</p>
+</dd>
+<dt>def numero(self, numero):</dt><dd><p>Método para alterar o número da conta.</p>
+</dd>
+<dt>def usuario(self):</dt><dd><p>Método para retornar o usuário.</p>
+</dd>
+<dt>def usuario(self, usuario):</dt><dd><p>Método para alterar o nome de usuário.</p>
+</dd>
+<dt>def senha(self):</dt><dd><p>Método para retornar a senha da conta.</p>
+</dd>
+<dt>def senha(self, senha):</dt><dd><p>Método para alterar a senha da conta.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modulo1.html" class="btn btn-neutral float-left" title="Cliente" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, David.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
